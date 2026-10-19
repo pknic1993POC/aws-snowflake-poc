@@ -1,0 +1,35 @@
+name: Snowflake connectivity
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  connection-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Configure Snowflake CLI
+        uses: snowflakedb/snowflake-actions@v3
+        with:
+          use-oidc: true
+          cli-version: "3.16"
+
+      - name: Test Snowflake
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ vars.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: SVC_GITHUB_INGESTION
+          SNOWFLAKE_ROLE: INGESTION_CICD_BOOTSTRAP
+        run: |
+          snow connection test -x
