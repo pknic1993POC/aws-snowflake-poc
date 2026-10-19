@@ -32,4 +32,4 @@ jobs:
           SNOWFLAKE_USER: SVC_GITHUB_INGESTION
           SNOWFLAKE_ROLE: INGESTION_CICD_BOOTSTRAP
         run: |
-          snow connection test -x
+          snow sql -q "SELECT CURRENT_USER();" -x
