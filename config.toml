@@ -1,0 +1,9 @@
+[connections.default]
+account = ""
+user = ""
+role = ""
+warehouse = ""
+database = ""
+schema = ""
+authenticator = "WORKLOAD_IDENTITY"
+workload_identity_provider = "OIDC"
