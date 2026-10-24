@@ -1,0 +1,22 @@
+{
+  "batch": {
+    "sheets": {
+      "1. Data Integration": {
+        "required_fields_populated": [
+          "★ Interface Agreement ID",
+          "★ Data Source Name",
+          "★ Business Domain",
+          "★ Source Technical Product Owner",
+          "★ Data Owner / Steward",
+          "★ Interface Agreement Approver",
+          "★ Integration Pattern",
+          "★ Connection Type"
+        ]
+      },
+      "3. Data Elements": {
+        "skip_rows": 4,
+        "required_columns": [1, 2, 3]
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+name: Validate Interface Agreement
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "interface-agreements/source/**/*.xlsx"
+      - "ia-converter/**"
+      - "tests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Interface Agreements
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: ia-converter/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ia-converter/requirements.txt
+
+
+      - name: Identify Interface Agreements to validate
+        shell: bash
+        run: |
+          # Manual run: validate ALL Interface Agreements
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+
+            echo "Manual run detected."
+            echo "Validating all Interface Agreements."
+
+            find interface-agreements/source \
+              -type f \
+              -name "*.xlsx" \
+              | sort \
+              > changed-ias.txt
+
+          # Pull Request: validate only changed Interface Agreements
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+
+            echo "Pull Request detected."
+            echo "Validating only changed Interface Agreements."
+
+            git diff \
+              --name-only \
+              --diff-filter=ACMR \
+              "${{ github.event.pull_request.base.sha }}" \
+              "${{ github.event.pull_request.head.sha }}" \
+              -- "interface-agreements/source/**/*.xlsx" \
+              > changed-ias.txt
+
+          else
+
+            echo "Unsupported workflow event: ${{ github.event_name }}"
+            exit 1
+
+          fi
+
+          echo ""
+          echo "Interface Agreements to validate:"
+          cat changed-ias.txt
+
+          if [ ! -s changed-ias.txt ]; then
+            echo "No Interface Agreements found to validate."
+          fi
+
+      - name: Validate Interface Agreements
+        shell: bash
+        run: |
+          mkdir -p build/generated
+          mkdir -p build/reports
+
+          while IFS= read -r ia_file; do
+
+            [ -z "$ia_file" ] && continue
+
+            echo "----------------------------------------"
+            echo "Validating: $ia_file"
+            echo "----------------------------------------"
+
+            python ia-converter/convert.py \
+              --input "$ia_file" \
+              --output-dir build/generated \
+              --report-dir build/reports \
+              --validate-only
+
+          done < changed-ias.txt
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ia-validation-results
+          path: |
+            build/generated/
+            build/reports/
+            changed-ias.txt
+          if-no-files-found: warn
+          retention-days: 14

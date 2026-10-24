@@ -1,0 +1,372 @@
+{
+  "source_file": "Interface Agreement - Batch Template.xlsx",
+  "interface_agreement": {
+    "interface_id": "DSI116-A906-Workday HCM",
+    "source_system": "Workday HCM",
+    "cmdb_app_id": "A906",
+    "system_acronym": "WD",
+    "vendor_name": "Workday Inc",
+    "business_domain": "People, Finance",
+    "technical_product_owner": "Bill Smith",
+    "data_owner": "People Analytics Manager; Nicole Smith",
+    "integration_pattern": "Batch File",
+    "connection_type": "Push"
+  },
+  "datasets": [
+    {
+      "Dataset Name": "worker",
+      "Dataset description": "Worker table that has all the employee information",
+      "S.No": 1,
+      "Source Path": "QMFT",
+      "Target Path": "s3 bucket",
+      "File Format": "CSV",
+      "File extraction type": "Full",
+      "File Compression": "None",
+      "File Encryption": "None",
+      "File Naming Convention": "",
+      "Header present": true,
+      "Delimiter": "Pipe",
+      "Character Encoding": "UTF-8",
+      "SLA": null,
+      "Frequency": "Daily",
+      "Active": true
+    }
+  ],
+  "dataset_attributes": [
+    {
+      "dataset_name": "worker",
+      "attributes": [
+        {
+          "S.No": 1,
+          "Field Name": "report_effective_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 2,
+          "Field Name": "employee_id",
+          "Data Type": "varchar(20)",
+          "Primary Key": "Yes",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 3,
+          "Field Name": "pre_hire_id",
+          "Data Type": "varchar(400)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "400",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 4,
+          "Field Name": "salutation",
+          "Data Type": "varchar(40)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "40",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 5,
+          "Field Name": "legal_name_first_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 6,
+          "Field Name": "legal_name_middle_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 7,
+          "Field Name": "legal_name_last_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 8,
+          "Field Name": "preferred_name_first_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 9,
+          "Field Name": "preferred_name_middle_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 10,
+          "Field Name": "preferred_name_last_name",
+          "Data Type": "varchar(512)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "512",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 11,
+          "Field Name": "gender",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 12,
+          "Field Name": "race_ethnicity",
+          "Data Type": "varchar(600)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "600",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 13,
+          "Field Name": "date_of_birth",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 14,
+          "Field Name": "country_of_birth",
+          "Data Type": "varchar(400)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "400",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 15,
+          "Field Name": "primary_nationality",
+          "Data Type": "varchar(400)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "400",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 16,
+          "Field Name": "worker_type",
+          "Data Type": "varchar(600)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "600",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 17,
+          "Field Name": "worker_sub_type",
+          "Data Type": "varchar(600)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "600",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 18,
+          "Field Name": "work_email",
+          "Data Type": "varchar(1000)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "1000",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 19,
+          "Field Name": "gdp_id",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 20,
+          "Field Name": "financial_delegation",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 21,
+          "Field Name": "hire_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 22,
+          "Field Name": "original_hire_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 23,
+          "Field Name": "continuous_service_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 24,
+          "Field Name": "company_service_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 25,
+          "Field Name": "is_international_assignee",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 26,
+          "Field Name": "active_status",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 27,
+          "Field Name": "termination_date",
+          "Data Type": "varchar(20)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "20",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 28,
+          "Field Name": "regrettable_termination",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 29,
+          "Field Name": "not_eligible_for_hire",
+          "Data Type": "varchar(200)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "200",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 30,
+          "Field Name": "primary_termination_reason",
+          "Data Type": "varchar(64000)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "64000",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 31,
+          "Field Name": "secondary_termination_reasons",
+          "Data Type": "varchar(64000)",
+          "Primary Key": "",
+          "Nullability": "Yes",
+          "Field Length": "64000",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 32,
+          "Field Name": "upstrm_file_locn",
+          "Data Type": "varchar(4096)",
+          "Primary Key": "",
+          "Nullability": "No",
+          "Field Length": "4096",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        },
+        {
+          "S.No": 33,
+          "Field Name": "rec_recv_tsmp",
+          "Data Type": "timestamp",
+          "Primary Key": "",
+          "Nullability": "No",
+          "Field Length": "4096",
+          "Field Description": "",
+          "PII - Sensitive Data": ""
+        }
+      ]
+    }
+  ]
+}

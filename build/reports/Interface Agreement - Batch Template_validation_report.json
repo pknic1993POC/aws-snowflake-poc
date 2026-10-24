@@ -1,0 +1,20 @@
+{
+  "source_file": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\interface-agreements\\source\\Workday-HCM\\v1.0\\Interface Agreement - Batch Template.xlsx",
+  "status": "valid",
+  "validation": {
+    "valid": true,
+    "file": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\interface-agreements\\source\\Workday-HCM\\v1.0\\Interface Agreement - Batch Template.xlsx",
+    "file_type": "batch",
+    "errors": [],
+    "warnings": [],
+    "worksheets": [
+      "1. Data Integration",
+      "2. MDP Ingestion Pattern",
+      "3. Datasets",
+      "4. Dataset Attributes",
+      "5. Version Control",
+      "Interface Reference"
+    ]
+  },
+  "generated_json": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\build\\generated\\Interface Agreement - Workday HCM.json"
+}

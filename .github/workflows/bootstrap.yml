@@ -1,0 +1,57 @@
+name: Bootstrap Environment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  bootstrap:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine Environment
+        run: |
+
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "ENV=DEV" >> $GITHUB_ENV
+
+          elif [[ "${GITHUB_REF_NAME}" == "master" ]]; then
+            echo "ENV=PRD" >> $GITHUB_ENV
+          fi
+
+      - name: Display Environment
+        run: |
+          echo "Deploying to $ENV"
+
+      - name: Deploy Databases
+        run: |
+          snow sql \
+            --variable ENV=$ENV \
+            -f snowflake/bootstrap/001_create_databases.sql
+
+      - name: Deploy Schemas
+        run: |
+          snow sql \
+            --variable ENV=$ENV \
+            -f snowflake/bootstrap/002_create_schemas.sql
+
+      - name: Deploy Warehouse
+        run: |
+          snow sql \
+            --variable ENV=$ENV \
+            -f snowflake/bootstrap/003_create_warehouse.sql
+
+      - name: Deploy Configuration Tables
+        run: |
+          snow sql \
+            --variable ENV=$ENV \
+            -f snowflake/bootstrap/004_create_configuration_tables.sql
