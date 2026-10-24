@@ -60,12 +60,13 @@ jobs:
             echo "Pull Request detected."
             echo "Validating only changed Interface Agreements."
 
-            git diff \
-              --name-only \
-              --diff-filter=ACMR \
-              "${{ github.event.pull_request.base.sha }}" \
-              "${{ github.event.pull_request.head.sha }}" \
-              -- "interface-agreements/source/**/*.xlsx" \
+            echo "Manual run detected."
+            echo "Validating all Interface Agreements."
+
+            find interface-agreements/source \
+              -type f \
+              -name "*.xlsx" \
+              | sort \
               > changed-ias.txt
 
           else
