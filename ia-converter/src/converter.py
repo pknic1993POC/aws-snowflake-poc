@@ -76,7 +76,7 @@ def validate_batch_template(file_path: Path, file_type: str = "batch") -> dict[s
             mandatory_value = row[3]
             column_b_value = row[1]
 
-            if str(mandatory_value).strip().lower() == "mandatory" and _is_blank(column_b_value):
+            if str(mandatory_value).strip().lower() == "yes" and _is_blank(column_b_value):
                 result["errors"].append(
                     f"Worksheet '{sheet_name}' row {row_index} is marked 'Mandatory' in column D but column B is blank."
                 )
@@ -243,7 +243,7 @@ def build_interface_agreement_standard_json(file_path: Path, output_dir: Path | 
             ]
 
     payload: dict[str, Any] = {
-        "source_file": file_path.name,
+        "ia_source_file": file_path.name,
         "interface_agreement": interface_metadata,
         "datasets": datasets,
         "dataset_attributes": dataset_attributes,

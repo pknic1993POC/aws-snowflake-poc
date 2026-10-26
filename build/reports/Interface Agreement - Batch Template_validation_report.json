@@ -1,11 +1,13 @@
 {
   "source_file": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\interface-agreements\\source\\Workday-HCM\\v1.0\\Interface Agreement - Batch Template.xlsx",
-  "status": "valid",
+  "status": "invalid",
   "validation": {
-    "valid": true,
+    "valid": false,
     "file": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\interface-agreements\\source\\Workday-HCM\\v1.0\\Interface Agreement - Batch Template.xlsx",
     "file_type": "batch",
-    "errors": [],
+    "errors": [
+      "Worksheet 'Interface Reference' row 4 is marked 'Mandatory' in column D but column B is blank."
+    ],
     "warnings": [],
     "worksheets": [
       "1. Data Integration",
@@ -16,5 +18,5 @@
       "Interface Reference"
     ]
   },
-  "generated_json": "C:\\Users\\prateek.nichani\\Downloads\\aws-snowflake-poc\\build\\generated\\Interface Agreement - Workday HCM.json"
+  "generated_json": null
 }

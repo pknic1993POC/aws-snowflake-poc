@@ -1,7 +1,6 @@
 name: Validate Interface Agreement
 
 on:
-  workflow_dispatch:
 
   pull_request:
     branches:
@@ -11,8 +10,17 @@ on:
       - "ia-converter/**"
       - "tests/**"
 
+  push:
+    branches:
+      - main
+    paths:
+      - "interface-agreements/source/**/*.xlsx"
+      - "ia-converter/**"
+      - "tests/**"
+
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   validate:
@@ -42,69 +50,78 @@ jobs:
       - name: Identify Interface Agreements to validate
         shell: bash
         run: |
-          # Manual run: validate ALL Interface Agreements
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "Event: ${{ github.event_name }}"
 
-            echo "Manual run detected."
-            echo "Validating all Interface Agreements."
-
-            find interface-agreements/source \
-              -type f \
-              -name "*.xlsx" \
-              | sort \
-              > changed-ias.txt
-
-          # Pull Request: validate only changed Interface Agreements
-          elif [ "${{ github.event_name }}" = "pull_request" ]; then
-
-            echo "Pull Request detected."
-            echo "Validating only changed Interface Agreements."
-
-            echo "Manual run detected."
-            echo "Validating all Interface Agreements."
-
-            find interface-agreements/source \
-              -type f \
-              -name "*.xlsx" \
-              | sort \
-              > changed-ias.txt
-
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "PR to main detected. Validating only changed Interface Agreements."
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "Push to main detected. Validating Interface Agreements before generation/ingestion."
           else
-
             echo "Unsupported workflow event: ${{ github.event_name }}"
             exit 1
-
           fi
 
+          find interface-agreements/source \
+            -type f \
+            -name "*.xlsx" \
+            | sort \
+            > changed-ias.txt
+
           echo ""
-          echo "Interface Agreements to validate:"
+          echo "Interface Agreements to process:"
           cat changed-ias.txt
 
           if [ ! -s changed-ias.txt ]; then
-            echo "No Interface Agreements found to validate."
+            echo "No Interface Agreements found to process."
           fi
 
       - name: Validate Interface Agreements
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
         shell: bash
         run: |
-          mkdir -p build/generated
           mkdir -p build/reports
+          mkdir -p build/generated
 
           while IFS= read -r ia_file; do
-
             [ -z "$ia_file" ] && continue
 
             echo "----------------------------------------"
-            echo "Validating: $ia_file"
+            echo "Processing: $ia_file"
             echo "----------------------------------------"
 
-            python ia-converter/convert.py \
-              --input "$ia_file" \
-              --output-dir build/generated \
-              --report-dir build/reports \
-              --validate-only
-
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              python ia-converter/convert.py \
+                --input "$ia_file" \
+                --output-dir build/generated \
+                --report-dir build/reports \
+                --validate-only
+            else
+              python ia-converter/convert.py \
+                --input "$ia_file" \
+                --output-dir build/generated \
+                --report-dir build/reports
+            fi
           done < changed-ias.txt
+
+      - name: Call Snowflake stored procedure with generated JSON
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          SNOWFLAKE_PROCEDURE_NAME: "QA_INGESTION_CONFIG_DB_DEV.METADATA.SP_LOAD_CONFIG"
+        run: |
+          shopt -s nullglob
+          json_files=(build/generated/*.json)
+
+          if [ ${#json_files[@]} -eq 0 ]; then
+            echo "No generated JSON files found in build/generated. Skipping Snowflake call."
+            exit 0
+          fi
+
+          for json_file in "${json_files[@]}"; do
+            echo "Calling ${SNOWFLAKE_PROCEDURE_NAME} with ${json_file}"
+            payload=$(cat "$json_file")
+            snow sql -q "CALL ${SNOWFLAKE_PROCEDURE_NAME}($$${payload}$$);"
+          done
 
       - name: Upload validation evidence
         if: always()
